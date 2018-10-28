@@ -1,0 +1,10 @@
+{
+    "extends": "standard",
+    "rules": {
+        "semi":["error","always"],
+        "padded-blocks":"off",
+        "indent":["warn",4],
+        "brace-style":["error","allman", { "allowSingleLine": true }],
+        "no-undef":"warn"
+    }
+}

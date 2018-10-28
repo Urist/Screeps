@@ -6,10 +6,10 @@
  * var mod = require('SpawnLogic');
  * mod.thing == 'a thing'; // true
  */
- 
-function logR(returnCode, message)
+
+function logR (returnCode, message)
 {
-    if(returnCode != OK && Memory.LogLevel >= 1)
+    if (returnCode !== OK && Memory.LogLevel >= 1)
     {
         console.log(returnCode + ' message: ' + message);
     }
@@ -17,12 +17,12 @@ function logR(returnCode, message)
 
 function RandomCreepName ()
 {
-  return 'Creep'+ Math.floor(Math.random() * 1000);
+    return 'Creep' + Math.floor(Math.random() * 1000);
 }
 
-function Execute()
+function Execute ()
 {
-    for(var roomName in Game.rooms)
+    for (var roomName in Game.rooms)
     {
         var room = Game.rooms[roomName];
         var harvesters = room.find(FIND_MY_CREEPS);
@@ -30,14 +30,14 @@ function Execute()
         // Spawn new basic creeps (TODO: clean up old creeps)
         if (harvesters.length < 5)
         {
-            for(var spawnName in Game.spawns)
+            for (var spawnName in Game.spawns)
             {
-                if(!Game.spawns[spawnName].spawning)
-                {            
-                    if(Memory.LogLevel >= 3) console.log('Spawning new creep');
+                if (!Game.spawns[spawnName].spawning)
+                {
+                    if (Memory.LogLevel >= 3) console.log('Spawning new creep');
                     var ret = Game.spawns[spawnName].spawnCreep([WORK, CARRY, MOVE], RandomCreepName());
                     logR(ret, 'spawnCreep');
-                }            
+                }
             }
         }
     }
