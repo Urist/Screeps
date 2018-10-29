@@ -4,6 +4,7 @@ var spawnMod = require('SpawnLogic');
 var resourceMod = require('ResourceLogic');
 var buildMod = require('BuildLogic');
 var defenseMod = require('DefenseLogic');
+var maintenanceMod = require('Maintenance');
 
 module.exports.loop = function ()
 {
@@ -18,4 +19,7 @@ module.exports.loop = function ()
 
     // P4 - Activate defenses
     defenseMod.Execute();
+
+    // P5 - Clean up
+    maintenanceMod.Execute();
 };
