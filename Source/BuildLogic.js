@@ -9,6 +9,7 @@
 
 module.exports.Execute = function ()
 {
+    if (Memory.LogLevel >= 4) console.log('Build module run');
     for (var roomName in Game.rooms)
     {
         var room = Game.rooms[roomName];
@@ -38,6 +39,7 @@ module.exports.Execute = function ()
                     if (creeps)
                     {
                         room.createConstructionSite(creeps[0].pos, STRUCTURE_TOWER);
+                        if (Memory.LogLevel >= 3) console.log('Placed tower construction site');
                     }
                 }
             }
@@ -58,6 +60,7 @@ module.exports.Execute = function ()
                 if (pos != null)
                 {
                     room.createConstructionSite(pos, STRUCTURE_EXTENSION);
+                    if (Memory.LogLevel >= 3) console.log('Placed extension construction site');
                 }
             }
         }
@@ -109,6 +112,7 @@ function FindClearSpaceNear (room, thing)
             }
         }
     }
+    if (Memory.LogLevel >= 1) console.log('FindClearSpaceNear failed at position: (' + start.x + ',' + start.y + ',' + room.name + ')');
     return null;
 }
 
