@@ -38,8 +38,8 @@ module.exports.Execute = function ()
                     var creeps = room.find(FIND_MY_CREEPS);
                     if (creeps)
                     {
-                        room.createConstructionSite(creeps[0].pos, STRUCTURE_TOWER);
-                        if (Memory.LogLevel >= 3) console.log('Placed tower construction site');
+                        logR(room.createConstructionSite(creeps[0].pos, STRUCTURE_TOWER), 'create tower site');
+                        if (Memory.LogLevel >= 3) console.log('Placed tower site (' + creeps[0].pos.x + ',' + creeps[0].pos.y + ')');
                     }
                 }
             }
@@ -59,8 +59,8 @@ module.exports.Execute = function ()
                 // TODO: some kind of fall back if we don't find a clear space
                 if (pos != null)
                 {
-                    room.createConstructionSite(pos, STRUCTURE_EXTENSION);
-                    if (Memory.LogLevel >= 3) console.log('Placed extension construction site');
+                    logR(room.createConstructionSite(pos, STRUCTURE_EXTENSION), 'create extension site');
+                    if (Memory.LogLevel >= 3) console.log('Placed extension site(' + pos.x + ',' + pos.y + ')');
                 }
             }
         }
@@ -137,5 +137,13 @@ function MaxExtensions (ControllerLevel)
         return 50;
     case 8:
         return 60;
+    }
+}
+
+function logR (returnCode, message)
+{
+    if (returnCode !== OK && Memory.LogLevel >= 1)
+    {
+        console.log(returnCode + ' message: ' + message);
     }
 }
