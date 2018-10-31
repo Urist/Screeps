@@ -81,10 +81,10 @@ function FindClearSpaceNear (room, thing)
 
     var start = thing.pos;
 
-    for (range = 1; range < MAX_SEARCH_RANGE; ++range)
+    for (var range = 1; range < MAX_SEARCH_RANGE; ++range)
     {
         // First look along the x axis
-        for (dx = -1 * range; dx <= 1 * range; ++dx)
+        for (var dx = -1 * range; dx <= 1 * range; ++dx)
         {
             // y + range
             if (IsClear(start.x + dx, start.y + range))
@@ -98,7 +98,7 @@ function FindClearSpaceNear (room, thing)
             }
         }
         // Next look along y axis, skipping the corners
-        for (dy = -1 * (range - 1); dy <= 1 * (range - 1); ++dy)
+        for (var dy = -1 * (range - 1); dy <= 1 * (range - 1); ++dy)
         {
             // x + range
             if (IsClear(start.x + range, start.y + dy))

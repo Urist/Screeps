@@ -16,7 +16,7 @@ module.exports.loop = function ()
 
     // P3 - Build new structures
     // New structures are rare, no need to check every tick
-    if (Game.ticks % 32 === 0) buildMod.Execute();
+    if (Game.time % 32 === 0) buildMod.Execute();
 
     // P4 - Activate defenses
     defenseMod.Execute();
