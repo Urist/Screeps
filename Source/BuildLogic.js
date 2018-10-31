@@ -89,12 +89,12 @@ function FindClearSpaceNear (room, thing)
             // y + range
             if (IsClear(start.x + dx, start.y + range))
             {
-                return RoomPosition(start.x + dx, start.y + range, room.name);
+                return new RoomPosition(start.x + dx, start.y + range, room.name);
             }
             // y - range
             if (IsClear(start.x + dx, start.y - range))
             {
-                return RoomPosition(start.x + dx, start.y + range, room.name);
+                return new RoomPosition(start.x + dx, start.y + range, room.name);
             }
         }
         // Next look along y axis, skipping the corners
@@ -103,12 +103,12 @@ function FindClearSpaceNear (room, thing)
             // x + range
             if (IsClear(start.x + range, start.y + dy))
             {
-                return RoomPosition(start.x + range, start.y + dy, room.name);
+                return new RoomPosition(start.x + range, start.y + dy, room.name);
             }
             // x - range
             if (IsClear(start.x + range, start.y - dy))
             {
-                return RoomPosition(start.x + range, start.y + dy, room.name);
+                return new RoomPosition(start.x + range, start.y + dy, room.name);
             }
         }
     }
