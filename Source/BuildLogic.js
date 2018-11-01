@@ -72,7 +72,7 @@ function FindClearSpaceNear (room, thing)
     {
         return room.lookAt(x, y).some(
             feature => OBSTACLE_OBJECT_TYPES.includes(feature.type)
-        ) || room.lookAt(x, y).any(
+        ) || room.lookAt(x, y).some(
             feature => feature.type === LOOK_CONSTRUCTION_SITES
         );
     }
