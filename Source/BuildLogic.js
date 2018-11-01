@@ -1,5 +1,5 @@
 
-Memory.Build.BuiltLastTick = false;
+Memory.BuiltLastTick = false;
 
 module.exports.Execute = function ()
 {
@@ -8,10 +8,13 @@ module.exports.Execute = function ()
     {
         var room = Game.rooms[roomName];
 
+        // No more than 3 active constructions at a time, drones can only build so fast
+        var sites = room.find(FIND_MY_CONSTRUCTION_SITES);
+
         // Create new constructions up to the max
-        if ((Game.time % 32 === 0 || Memory.Build.BuiltLastTick === true) && sites.length < 3)
+        if ((Game.time % 32 === 0 || Memory.BuiltLastTick === true) && sites.length < 3)
         {
-            Memory.Build.BuiltLastTick = false;
+            Memory.BuiltLastTick = false;
             // Build tower(s), just one for now TODO: build up to max
             if (room.controller.level >= 3)
             {
@@ -29,7 +32,7 @@ module.exports.Execute = function ()
                     {
                         logR(room.createConstructionSite(creeps[0].pos, STRUCTURE_TOWER), 'create tower site');
                         if (Memory.LogLevel >= 3) console.log('Placed tower site (' + creeps[0].pos.x + ',' + creeps[0].pos.y + ')');
-                        Memory.Build.BuiltLastTick = true;
+                        Memory.BuiltLastTick = true;
                         return;
                     }
                 }
@@ -52,7 +55,7 @@ module.exports.Execute = function ()
                 {
                     logR(room.createConstructionSite(pos, STRUCTURE_EXTENSION), 'create extension site');
                     if (Memory.LogLevel >= 3) console.log('Placed extension site(' + pos.x + ',' + pos.y + ')');
-                    Memory.Build.BuiltLastTick = true;
+                    Memory.BuiltLastTick = true;
                     return;
                 }
             }
