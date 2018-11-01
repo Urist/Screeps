@@ -7,6 +7,18 @@
  * mod.thing == 'a thing'; // true
  */
 
+// Body part       Build cost
+// MOVE	            50
+// WORK	            100
+// CARRY	        50
+// ATTACK	        80
+// RANGED_ATTACK	150
+// HEAL	            250
+// CLAIM	        600
+// TOUGH	        10
+
+var helper = require('Helper');
+
 function logR (returnCode, message)
 {
     if (returnCode !== OK && Memory.LogLevel >= 1)
@@ -27,20 +39,44 @@ function Execute ()
         var room = Game.rooms[roomName];
         var harvesters = room.find(FIND_MY_CREEPS);
 
-        // Spawn new basic creeps (TODO: clean up old creeps)
+        // Spawn new basic creeps
         if (harvesters.length < 5)
         {
             for (var spawnName in Game.spawns)
             {
-                if (!Game.spawns[spawnName].spawning)
+                var spawn = Game.spawns[spawnName];
+                if (!spawn.spawning)
                 {
-                    if (Memory.LogLevel >= 3) console.log('Spawning new creep');
-                    var ret = Game.spawns[spawnName].spawnCreep([WORK, CARRY, MOVE], RandomCreepName());
-                    logR(ret, 'spawnCreep');
+                    // MOVE + WORK + CARRY = 200
+                    var creepSizeMultiplier = Math.floor(helper.AvailableSpawnEnergy(room) / 200);
+
+                    if (creepSizeMultiplier > 0)
+                    {
+                        var bodyFormula =
+                        {
+                            WORK: creepSizeMultiplier,
+                            CARRY: creepSizeMultiplier,
+                            MOVE: creepSizeMultiplier
+                        };
+                        var body = MakeBody(bodyFormula);
+                        if (Memory.LogLevel >= 3) console.log('Spawning new creep, body: ' + body);
+                        var ret = spawn.spawnCreep(body, RandomCreepName());
+                        logR(ret, 'spawnCreep');
+                    }
                 }
             }
         }
     }
+}
+
+function MakeBody (formula)
+{
+    var body = [];
+    for (var part in formula)
+    {
+        body = body.concat(Array(formula[part]).fill(part));
+    }
+    return body;
 }
 
 module.exports.Execute = Execute;

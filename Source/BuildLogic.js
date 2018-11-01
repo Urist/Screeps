@@ -1,6 +1,8 @@
 
 Memory.BuiltLastTick = false;
 
+var helper = require('Helper');
+
 module.exports.Execute = function ()
 {
     if (Memory.LogLevel >= 4) console.log('Build module run');
@@ -43,7 +45,7 @@ module.exports.Execute = function ()
                 filter: (structure) => { return (structure.structureType === STRUCTURE_EXTENSION); }
             });
 
-            if (extensions.length < MaxExtensions(room.controller.level))
+            if (extensions.length < helper.MaxExtensions(room.controller.level))
             {
                 // Build it near spawn
                 var spawn = room.find(FIND_MY_STRUCTURES, {
@@ -110,30 +112,6 @@ function FindClearSpaceNear (room, thing)
     }
     if (Memory.LogLevel >= 1) console.log('FindClearSpaceNear failed at position: (' + start.x + ',' + start.y + ',' + room.name + ')');
     return null;
-}
-
-function MaxExtensions (ControllerLevel)
-{
-    switch (ControllerLevel)
-    {
-    case 0:
-    case 1:
-        return 0;
-    case 2:
-        return 5;
-    case 3:
-        return 10;
-    case 4:
-        return 20;
-    case 5:
-        return 30;
-    case 6:
-        return 40;
-    case 7:
-        return 50;
-    case 8:
-        return 60;
-    }
 }
 
 function logR (returnCode, message)
