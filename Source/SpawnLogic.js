@@ -52,12 +52,12 @@ function Execute ()
 
                     if (creepSizeMultiplier > 0)
                     {
-                        var bodyFormula =
-                        {
-                            WORK: creepSizeMultiplier,
-                            CARRY: creepSizeMultiplier,
-                            MOVE: creepSizeMultiplier
-                        };
+                        var bodyFormula = new Map(
+                            [
+                                [WORK, creepSizeMultiplier],
+                                [CARRY, creepSizeMultiplier],
+                                [MOVE, creepSizeMultiplier]
+                            ]);
                         var body = MakeBody(bodyFormula);
                         if (Memory.LogLevel >= 3) console.log('Spawning new creep, body: ' + body);
                         var ret = spawn.spawnCreep(body, RandomCreepName());
@@ -72,9 +72,9 @@ function Execute ()
 function MakeBody (formula)
 {
     var body = [];
-    for (var part in formula)
+    for (const [key, value] of formula)
     {
-        body = body.concat(Array(formula[part]).fill(part));
+        body = body.concat(Array(value).fill(key));
     }
     return body;
 }
