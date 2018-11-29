@@ -70,11 +70,8 @@ function FindClearSpaceNear (room, thing)
 {
     function IsClear (x, y)
     {
-        return room.lookAt(x, y).some(
-            feature => OBSTACLE_OBJECT_TYPES.includes(feature.type)
-        ) || room.lookAt(x, y).some(
-            feature => feature.type === LOOK_CONSTRUCTION_SITES
-        );
+        var lookList = room.lookAt(x, y);
+        return lookList.length === 1 && lookList[0].type === "terrain" && lookList[0].terrain === "plain";
     }
 
     const MAX_SEARCH_RANGE = 9;
@@ -84,8 +81,12 @@ function FindClearSpaceNear (room, thing)
     for (var range = 1; range < MAX_SEARCH_RANGE; ++range)
     {
         // First look along the x axis
-        for (var dx = -1 * range; dx <= 1 * range; ++dx)
+        for (var dx = -1 * range; dx <= range; ++dx)
         {
+            if (dx === 0)
+            {
+                continue; // cheap way to not block in the spawn
+            }
             // y + range
             if (IsClear(start.x + dx, start.y + range))
             {
@@ -94,21 +95,25 @@ function FindClearSpaceNear (room, thing)
             // y - range
             if (IsClear(start.x + dx, start.y - range))
             {
-                return new RoomPosition(start.x + dx, start.y + range, room.name);
+                return new RoomPosition(start.x + dx, start.y - range, room.name);
             }
         }
         // Next look along y axis, skipping the corners
-        for (var dy = -1 * (range - 1); dy <= 1 * (range - 1); ++dy)
+        for (var dy = -1 * (range - 1); dy <= (range - 1); ++dy)
         {
+            if (dy === 0)
+            {
+                continue; // cheap way to not block in the spawn
+            }
             // x + range
             if (IsClear(start.x + range, start.y + dy))
             {
                 return new RoomPosition(start.x + range, start.y + dy, room.name);
             }
             // x - range
-            if (IsClear(start.x + range, start.y - dy))
+            if (IsClear(start.x - range, start.y + dy))
             {
-                return new RoomPosition(start.x + range, start.y + dy, room.name);
+                return new RoomPosition(start.x - range, start.y + dy, room.name);
             }
         }
     }
